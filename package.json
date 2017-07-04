@@ -1,0 +1,17 @@
+{
+  "name": "facebook-pages-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "d3": "^4.7.1",
+    "file-saver": "^1.3.3",
+    "github-scraper": "^4.6.0"
+  }
+}
