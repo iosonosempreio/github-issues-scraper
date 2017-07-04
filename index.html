@@ -74,18 +74,13 @@
     var output = [];
 
     function getIssues() {
-        // var accessToken = document.getElementById('access-token').value;
-
-        //https://api.github.com/rate_limit?client_id=1a87f8ff8608809c0c7e&client_secret=cb4dd9c973bf7e377fc9f51330f223c746231550
-
 
         var itemsList = document.getElementById('pages-links').value.split("\n");
         var baseUrl = 'https://api.github.com/repos/{{userName}}/{{repositoryName}}/issues?state=all&per_page=100';
         var baseUrl = 'https://api.github.com/repos/{{userName}}/{{repositoryName}}/issues?client_id=1a87f8ff8608809c0c7e&client_secret=cb4dd9c973bf7e377fc9f51330f223c746231550&state=all&per_page=100&page={{pageIndex}}';
 
         console.log('Repos to get:', itemsList.length)
-            // console.log(accessToken);
-        console.log(itemsList);
+        // console.log(itemsList);
 
         var myTable = d3.select('#table-container').append('table')
             .classed('table', true)
@@ -124,7 +119,7 @@
                 var userName = identifiers[0];
                 var repositoryName = identifiers[1];
                 var url = baseUrl.replace('{{userName}}', userName).replace('{{repositoryName}}', repositoryName).replace('{{pageIndex}}', pageIndex);
-                console.log(url);
+                // console.log(url);
                 d3.json(url, function(err, res) {
                     if (err) {
                         console.error(err);
@@ -133,7 +128,7 @@
                     // console.log(res);
                     d3.select('#get-button').classed('hidden', true);
                     if (res.length > 0) {
-                        console.log(res.length);
+                        // console.log(res.length);
                         res.forEach(function(issue, i) {
 
                             var labelsList = [];
@@ -175,23 +170,24 @@
                             output.push(obj);
 
                             if (issue.number > 1 && i == (res.length - 1)) {
-                                console.log('next page');
+                                // console.log('next page');
                                 page++;
-                                console.log(page)
-                                getInfo(count, page);
+                                // console.log(page);
+                                window.setTimeout(getInfo(count, page), 1000);
+                                
                             } else if (issue.number == 1) {
                                 page = 1;
                                 count++;
-                                console.log(count, page)
-                                getInfo(count, page);
+                                // console.log(count, page)
+                                window.setTimeout(getInfo(count, page), 1000);
                             }
                         })
                     }
                     else {
                       page = 1;
                       count++;
-                      console.log(count, page)
-                      getInfo(count, page);
+                      // console.log(count, page)
+                      window.setTimeout(getInfo(count, page), 1000);
                       d3.select('#download-button').classed('hidden', false);
                     }
 
@@ -200,8 +196,8 @@
             else {
                 if (index < itemsList.length) {
                     count++;
-                    console.log('count', count);
-                    getInfo(count);
+                    // console.log('count', count);
+                    window.setTimeout(getInfo(count, page), 1000);
                 } else {
                     console.log('output:', output);
                     d3.select('#download-button').classed('hidden', false);
@@ -216,15 +212,15 @@
       // repository id  number  state created_at  updated_at  closed_at labels
       var tsvtxt = 'repository\tid\tnumber\tstate\tcreated_at\tupdated_at\tclosed_at\tlabels\tcomments\ttitle\tuser_id\tuser_login\n';
       output.forEach(function(o,i){
-        console.log(o);
+        // console.log(o);
         tsvtxt += o.repository+'\t'+o.id+'\t'+o.number+'\t'+o.state+'\t'+o.created_at+'\t'+o.updated_at+'\t'+o.closed_at+'\t'+o.labels+'\t'+o.comments+'\t'+o.title+'\t'+o.user_id+'\t'+o.user_login+'\n';
       });
       var blob = new Blob([tsvtxt], {type: "data:text/tsv;charset=utf-8"});
       saveAs(blob, outputName);
     }
     function loadSample() {
-        document.getElementById('pages-links').value = 'https://github.com/NYCPlanning/facilities-db\nhttps://github.com/CityOfBoston/budget.boston.gov';
-        //\nhttps://github.com/mxabierto/adela\nhttps://github.com/CityOfBoston/boston.gov
+        document.getElementById('pages-links').value = 'https://github.com/NYCPlanning/facilities-db\nhttps://github.com/CityOfBoston/budget.boston.gov\nhttps://github.com/mxabierto/adela\nhttps://github.com/CityOfBoston/boston.gov';
+        //
     }
     </script>
     <!-- <script>
