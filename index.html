@@ -41,6 +41,7 @@
                         <label for="pages-links">Repositories List (isert the link of the github repository, e.g. "https://github.com/GSA/data.gov").
                             <button onclick="loadSample()" type="button" class="btn btn-info btn-xs">Try a sample</button>
                         </label>
+                        <label><a href="https://api.github.com/rate_limit?client_id=1a87f8ff8608809c0c7e&client_secret=cb4dd9c973bf7e377fc9f51330f223c746231550" target="_blank">GitHub API Rate Limit</a></label>
                         <textarea id="pages-links" class="form-control" name="ids" rows="5" placeholder="Your list, a repo for each line"></textarea>
                     </div>
                 </form>
@@ -86,7 +87,12 @@
 
         var itemsList = document.getElementById('pages-links').value.split("\n");
         var baseUrl = 'https://api.github.com/repos/{{userName}}/{{repositoryName}}/issues?state=all&per_page=100';
-        var baseUrl = 'https://api.github.com/repos/{{userName}}/{{repositoryName}}/issues?client_id=1a87f8ff8608809c0c7e&client_secret=cb4dd9c973bf7e377fc9f51330f223c746231550&state=all&per_page=100&page={{pageIndex}}';
+
+        var cid = '1a87f8ff8608809c0c7e';
+        var cs = 'cb4dd9c973bf7e377fc9f51330f223c746231550';
+        var baseUrl = 'https://api.github.com/repos/{{userName}}/{{repositoryName}}/issues?client_id={{cid}}&client_secret={{cs}}&state=all&per_page=100&page={{pageIndex}}';
+        baseUrl = baseUrl.replace('{{cid}}',cid);
+        baseUrl = baseUrl.replace('{{cs}}',cs);
 
         console.log('Repos to get:', itemsList.length)
             // console.log(itemsList);
